@@ -14,11 +14,6 @@ end
 class ShootDirectory
   def initialize(directory_name)
     @dir=directory_name
-    if ! File.exist?(argument)
-      throw "No such file or directory"
-      #puts "No such file or directory"
-      #exit (-1)
-    end
     shoot = Shoot.new
     shoot.name = @dir
     shoot.save
@@ -39,16 +34,6 @@ ARGV.each do |argument|
     #puts "No such file or directory"
     #exit (-1)
   end
-  shoot = Shoot.new
-  shoot.name = argument
-  shoot.save
-  d = Dir.new(argument)
-  filenames = d.entries
-  filenames.delete_if {|entry| entry =~ /^\./}
-  # filenames.delete_if {|entry| !File.file?(entry)}
-  filenames.each {|filename|
-     pic = Photo.new
-     pic.fullsize = filename
-     pic.save }
+  ShootDirectory.new(argument)
 end
 puts "Directory added"
