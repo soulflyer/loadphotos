@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# require "/Users/iain/Code/Photos/config/environment.rb"
+require "rubygems"
+require "active_record"
+ActiveRecord::Base.establish_connection(:adapter => "sqlite3",
+                             :database => "/Users/iain/Code/Photos/db/test.sqlite3")
+
+class Shoot < ActiveRecord::Base
+end
+
+class Photo < ActiveRecord::Base
+end
+
+class ShootDirectory
+  def initialize(directory_name)
+    @dir=directory_name
+    if ! File.exist?(argument)
+      throw "No such file or directory"
+      #puts "No such file or directory"
+      #exit (-1)
+    end
+    shoot = Shoot.new
+    shoot.name = @dir
+    shoot.save
+    d = Dir.new(@dir)
+    filenames = d.entries
+    filenames.delete_if {|entry| entry =~ /^\./}
+    # filenames.delete_if {|entry| !File.file?(entry)}
+    filenames.each {|filename|
+      pic = Photo.new
+      pic.fullsize = filename
+      pic.save }
+  end
+end
+
+ARGV.each do |argument|
+  if ! File.exist?(argument)
+    throw "No such file or directory"
+    #puts "No such file or directory"
+    #exit (-1)
+  end
+  shoot = Shoot.new
+  shoot.name = argument
+  shoot.save
+  d = Dir.new(argument)
+  filenames = d.entries
+  filenames.delete_if {|entry| entry =~ /^\./}
+  # filenames.delete_if {|entry| !File.file?(entry)}
+  filenames.each {|filename|
+     pic = Photo.new
+     pic.fullsize = filename
+     pic.save }
+end
+puts "Directory added"
