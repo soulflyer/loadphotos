@@ -20,11 +20,11 @@ Feature: Photographer adds a new shoot directory
     And the database should contain a shoot called "sampledirectory"
     And the database should contain a photo called "samplephoto"
 
-  # Scenario: Photogrpher specifies an existing directory that is already in the database
-  #   Given a directory named "newdirectory"
-  #   And newdirectory is already in the shoots database
-  #   When I run `loadphotos newdirectory`
-  #   Then it should fail with:
-  #   """
-  #   newdirectory is already in the database
-  #   """
+  Scenario: Photogrpher specifies an existing directory that is already in the database
+    Given a directory named "newdirectory"
+    And "newdirectory" is already in the shoots database
+    When I run `loadphotos newdirectory`
+    Then it should fail with:
+    """
+    newdirectory is already in the database
+    """

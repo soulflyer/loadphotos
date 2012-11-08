@@ -26,6 +26,13 @@ class ShootDirectory
       pic.fullsize = filename
       pic.save }
   end
+  def self.exist?(directory_name)
+    if Shoot.find_by_name(directory_name)
+      return true
+    else
+      return false
+    end
+  end
 end
 
 ARGV.each do |argument|
@@ -34,6 +41,10 @@ ARGV.each do |argument|
     #puts "No such file or directory"
     #exit (-1)
   end
-  ShootDirectory.new(argument)
+  if ShootDirectory.exist?(argument)
+    throw "#{argument} is already in the database"
+  else
+    ShootDirectory.new(argument)
+  end
 end
 puts "Directory added"
