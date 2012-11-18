@@ -23,7 +23,7 @@ class ShootDirectory
     # filenames.delete_if {|entry| !File.file?(entry)}
     filenames.each {|filename|
       pic = Photo.new
-      pic.fullsize = filename
+      pic.name = filename
       pic.save }
   end
 
